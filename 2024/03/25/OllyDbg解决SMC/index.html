@@ -19,22 +19,32 @@
   <meta name="author" content="a1rh">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Any problems connect to meemail:&#x61;&#x69;&#114;&#x68;&#116;&#104;&#x6d;&#110;&#x6f;&#x73;&#101;&#114;&#x63;&#104;&#x40;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;">
+    <meta name="description" content="OllyDbg解决SMC以scu×401ctf2021-re2-pixpix为例 先查壳，无壳，进入IDA进行分析    进入main函数，并没有特殊的字符串进行提示，exe文件也没有提示需要进行输入。  继续分析，GetPixel函数提取了对应坐标的像素值，然后在if-dowhile循环中进行了异或操作，跟进字节查看，大概猜测是对某个函数进行了smc操作   使用od进行分析可以更清楚查看数据的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="connect">
-<meta property="og:url" content="http://example.com/2024/09/16/connect/index.html">
+<meta property="og:title" content="OllyDbg解决SMC">
+<meta property="og:url" content="http://example.com/2024/03/25/OllyDbg%E8%A7%A3%E5%86%B3SMC/index.html">
 <meta property="og:site_name" content="Celinia">
-<meta property="og:description" content="Any problems connect to meemail:&#x61;&#x69;&#114;&#x68;&#116;&#104;&#x6d;&#110;&#x6f;&#x73;&#101;&#114;&#x63;&#104;&#x40;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;">
+<meta property="og:description" content="OllyDbg解决SMC以scu×401ctf2021-re2-pixpix为例 先查壳，无壳，进入IDA进行分析    进入main函数，并没有特殊的字符串进行提示，exe文件也没有提示需要进行输入。  继续分析，GetPixel函数提取了对应坐标的像素值，然后在if-dowhile循环中进行了异或操作，跟进字节查看，大概猜测是对某个函数进行了smc操作   使用od进行分析可以更清楚查看数据的">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-16T15:48:39.000Z">
-<meta property="article:modified_time" content="2024-09-19T06:51:55.470Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155547023-333792123.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155558291-1164084660-20240923143859812.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155612748-919285199.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155623405-1532852089.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155632301-1576245004.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155641663-581350194.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155654048-666841976.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155704146-1149815001.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155718760-380790269.png">
+<meta property="article:published_time" content="2024-03-24T16:50:39.000Z">
+<meta property="article:modified_time" content="2024-09-23T06:58:31.753Z">
 <meta property="article:author" content="a1rh">
-<meta property="article:tag" content="email">
+<meta property="article:tag" content="CTF">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155547023-333792123.png">
   
   
   
-  <title>connect - Celinia</title>
+  <title>OllyDbg解决SMC - Celinia</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -225,7 +235,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="connect"></span>
+            <span id="subtitle" data-typed-text="OllyDbg解决SMC"></span>
           
         </div>
 
@@ -236,8 +246,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-16 23:48" pubdate>
-          2024年9月16日 晚上
+        <time datetime="2024-03-25 00:50" pubdate>
+          2024年3月25日 凌晨
         </time>
       </span>
     
@@ -248,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          23 字
+          368 字
         
       </span>
     
@@ -259,7 +269,7 @@
         
         
         
-          1 分钟
+          4 分钟
         
       </span>
     
@@ -305,12 +315,45 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">connect</h1>
+            <h1 id="seo-header">OllyDbg解决SMC</h1>
             
             
               <div class="markdown-body">
                 
-                <h3 id="Any-problems-connect-to-me"><a href="#Any-problems-connect-to-me" class="headerlink" title="Any problems connect to me"></a>Any problems connect to me</h3><h5 id="email-x61-x69-114-x68-116-104-x6d-110-x6f-x73-101-114-x63-104-x40-x31-54-51-x2e-99-x6f-x6d"><a href="#email-x61-x69-114-x68-116-104-x6d-110-x6f-x73-101-114-x63-104-x40-x31-54-51-x2e-99-x6f-x6d" class="headerlink" title="email:&#x61;&#x69;&#114;&#x68;&#116;&#104;&#x6d;&#110;&#x6f;&#x73;&#101;&#114;&#x63;&#104;&#x40;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;"></a>email:<a href="mailto:&#x61;&#x69;&#114;&#x68;&#116;&#104;&#x6d;&#110;&#x6f;&#x73;&#101;&#114;&#x63;&#104;&#x40;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;">&#x61;&#x69;&#114;&#x68;&#116;&#104;&#x6d;&#110;&#x6f;&#x73;&#101;&#114;&#x63;&#104;&#x40;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;</a></h5>
+                <h3 id="OllyDbg解决SMC"><a href="#OllyDbg解决SMC" class="headerlink" title="OllyDbg解决SMC"></a>OllyDbg解决SMC</h3><h4 id="以scu×401ctf2021-re2-pixpix为例"><a href="#以scu×401ctf2021-re2-pixpix为例" class="headerlink" title="以scu×401ctf2021-re2-pixpix为例"></a>以scu×401ctf2021-re2-pixpix为例</h4><ol>
+<li>先查壳，无壳，进入IDA进行分析</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155547023-333792123.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="2">
+<li>进入main函数，并没有特殊的字符串进行提示，exe文件也没有提示需要进行输入。</li>
+</ol>
+<p>继续分析，GetPixel函数提取了对应坐标的像素值，然后在if-dowhile循环中进行了异或操作，跟进字节查看，大概猜测是对某个函数进行了smc操作</p>
+<p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155558291-1164084660-20240923143859812.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="3">
+<li><p>使用od进行分析可以更清楚查看数据的变化（二编：博主进行了两次OD的运行，题目存在段首地址偏移，所以0xA83384认准0x3384即可</p>
+<p> a.进入od界面，使用中文搜索引擎定位到函数入口</p>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155612748-919285199.png" srcset="/img/loading.gif" lazyload></p>
+<pre><code class="hljs">b.F9启动调试，这里有个关键地址0xA83384-A83386，存放了在ida分析中的三个字节&#123;0x34, 0x30, 0x31&#125;
+
+c.但是汇编指令 mov ds[0xA83385],c1将地址存放的值修改为0了
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155623405-1532852089.png" srcset="/img/loading.gif" lazyload></p>
+<pre><code class="hljs">d.先动态调试找到if判断（如果对汇编不熟悉的话。。
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155632301-1576245004.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155641663-581350194.png" srcset="/img/loading.gif" lazyload></p>
+<p>定位到关键操作异或，汇编指令mov a1,ds[ecx+0xA83384]给a1进行赋值，并且可以猜测0xA81050存放的就是待异或的flag</p>
+<p>但是0xA83384-0xA83386的值都被修改过</p>
+<pre><code class="hljs">e.重新启动程序进行调试，在地址内的值被修改之后再把值修改回去，这里三次地址都需要修改
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155654048-666841976.png" srcset="/img/loading.gif" lazyload></p>
+<pre><code class="hljs">f.然后直接在循环之后F2下断点，就可以看到smc被解码了，flag被打印出来
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155704146-1149815001.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/img3365542-20240325155718760-380790269.png" srcset="/img/loading.gif" lazyload></p>
+
                 
               </div>
             
@@ -322,7 +365,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/email/" class="print-no-link">#email</a>
+        <a href="/tags/CTF/" class="print-no-link">#CTF</a>
       
     </div>
   
@@ -334,8 +377,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>connect</div>
-      <div>http://example.com/2024/09/16/connect/</div>
+      <div>OllyDbg解决SMC</div>
+      <div>http://example.com/2024/03/25/OllyDbg解决SMC/</div>
     </div>
     <div class="license-meta">
       
@@ -347,7 +390,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月16日</div>
+          <div>2024年3月25日</div>
         </div>
       
       
@@ -379,9 +422,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/16/IDA%E8%BF%9C%E7%A8%8B%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95iOS%E7%A8%8B%E5%BA%8F/" title="IDA远程动态调试iOS程序">
+                      <a href="/2024/04/22/vctf2024-vm/" title="vctf2024-vm">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">IDA远程动态调试iOS程序</span>
+                        <span class="hidden-mobile">vctf2024-vm</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -389,8 +432,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/10/python%E5%86%99%E7%AE%97%E6%B3%95%E6%97%A5%E8%AE%B0/" title="python写算法日记">
-                        <span class="hidden-mobile">python写算法日记</span>
+                      <a href="/2024/03/24/VM%E9%80%86%E5%90%91/" title="VM逆向">
+                        <span class="hidden-mobile">VM逆向</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
