@@ -4,13 +4,19 @@
   
   
   <entry>
-    <title></title>
+    <title>理解Mac的虚拟化</title>
     <link href="/2024/09/24/%E7%90%86%E8%A7%A3Mac%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
     <url>/2024/09/24/%E7%90%86%E8%A7%A3Mac%E8%99%9A%E6%8B%9F%E5%8C%96/</url>
     
     <content type="html"><![CDATA[<h2 id="理解Mac的虚拟化"><a href="#理解Mac的虚拟化" class="headerlink" title="理解Mac的虚拟化"></a>理解Mac的虚拟化</h2><p>在使用docker镜像 和 Mac平台虚拟化x86架构的Windows 的时候遇到了一个问题。</p><p>docker安卓模拟需要ubuntu环境，但是发现fusion安装的ubuntu中的高级功能 不能选择虚拟化（后来发现是自己的Mac不支持虚拟嵌套）。</p><p>于是转战utm，安装了一个ubuntu环境。</p><h5 id="接着有一个问题就是，虚拟和模拟"><a href="#接着有一个问题就是，虚拟和模拟" class="headerlink" title="接着有一个问题就是，虚拟和模拟"></a>接着有一个问题就是，虚拟和模拟</h5><p>虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Linux平台；</p><p>而模拟用的镜像文件是amd64的，这里在Mac上模拟了一个x86-64架构的Linux平台</p><h5 id="忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系"><a href="#忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系" class="headerlink" title="忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系"></a>忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系</h5><p>kvm只需要物理机支持虚拟化，并且在虚拟机上设置一下支持虚拟化就可以了</p><p>查看Mac是否支持虚拟化</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sysctl -a | grep machdep.cpu.features<br>sysctl kern.hv_support<br></code></pre></td></tr></table></figure><h5 id="参考博客："><a href="#参考博客：" class="headerlink" title="参考博客："></a>参考博客：</h5><p><a href="https://blog.csdn.net/Nbin_Newby/article/details/120307866">https://blog.csdn.net/Nbin_Newby/article/details/120307866</a></p>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>网络</tag>
+      
+    </tags>
     
   </entry>
   
@@ -40,7 +46,7 @@
     <link href="/2024/09/16/connect/"/>
     <url>/2024/09/16/connect/</url>
     
-    <content type="html"><![CDATA[<h3 id="Any-problems-connect-to-me"><a href="#Any-problems-connect-to-me" class="headerlink" title="Any problems connect to me"></a>Any problems connect to me</h3><h5 id="email-x61-x69-114-x68-116-104-x6d-110-x6f-x73-101-114-x63-104-x40-x31-54-51-x2e-99-x6f-x6d"><a href="#email-x61-x69-114-x68-116-104-x6d-110-x6f-x73-101-114-x63-104-x40-x31-54-51-x2e-99-x6f-x6d" class="headerlink" title="email:&#x61;&#x69;&#114;&#x68;&#116;&#104;&#x6d;&#110;&#x6f;&#x73;&#101;&#114;&#x63;&#104;&#x40;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;"></a>email:<a href="mailto:&#x61;&#x69;&#114;&#x68;&#116;&#104;&#x6d;&#110;&#x6f;&#x73;&#101;&#114;&#x63;&#104;&#x40;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;">&#x61;&#x69;&#114;&#x68;&#116;&#104;&#x6d;&#110;&#x6f;&#x73;&#101;&#114;&#x63;&#104;&#x40;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;</a></h5>]]></content>
+    <content type="html"><![CDATA[<h3 id="Any-problems-connect-to-me"><a href="#Any-problems-connect-to-me" class="headerlink" title="Any problems connect to me"></a>Any problems connect to me</h3><h5 id="email-x61-x69-x72-104-x74-104-109-110-x6f-115-x65-x72-99-104-64-49-x36-x33-46-99-111-x6d"><a href="#email-x61-x69-x72-104-x74-104-109-110-x6f-115-x65-x72-99-104-64-49-x36-x33-46-99-111-x6d" class="headerlink" title="email:&#x61;&#x69;&#x72;&#104;&#x74;&#104;&#109;&#110;&#x6f;&#115;&#x65;&#x72;&#99;&#104;&#64;&#49;&#x36;&#x33;&#46;&#99;&#111;&#x6d;"></a>email:<a href="mailto:&#x61;&#x69;&#x72;&#104;&#x74;&#104;&#109;&#110;&#x6f;&#115;&#x65;&#x72;&#99;&#104;&#64;&#49;&#x36;&#x33;&#46;&#99;&#111;&#x6d;">&#x61;&#x69;&#x72;&#104;&#x74;&#104;&#109;&#110;&#x6f;&#115;&#x65;&#x72;&#99;&#104;&#64;&#49;&#x36;&#x33;&#46;&#99;&#111;&#x6d;</a></h5>]]></content>
     
     
     
