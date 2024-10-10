@@ -27,9 +27,9 @@
 <meta property="og:description" content="理解Mac的虚拟化在使用docker镜像 和 Mac平台虚拟化x86架构的Windows 的时候遇到了一个问题。 docker安卓模拟需要ubuntu环境，但是发现fusion安装的ubuntu中的高级功能 不能选择虚拟化（后来发现是自己的Mac不支持虚拟嵌套）。 于是转战utm，安装了一个ubuntu环境。 接着有一个问题就是，虚拟和模拟虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Li">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-24T13:08:09.000Z">
-<meta property="article:modified_time" content="2024-09-24T13:08:30.649Z">
+<meta property="article:modified_time" content="2024-10-10T09:43:05.029Z">
 <meta property="article:author" content="a1rh">
-<meta property="article:tag" content="网络">
+<meta property="article:tag" content="架构-学习">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -248,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          240 字
+          602 字
         
       </span>
     
@@ -259,7 +259,7 @@
         
         
         
-          3 分钟
+          6 分钟
         
       </span>
     
@@ -320,6 +320,27 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sysctl -a | grep machdep.cpu.features<br>sysctl kern.hv_support<br></code></pre></td></tr></table></figure>
 
 <h5 id="参考博客："><a href="#参考博客：" class="headerlink" title="参考博客："></a>参考博客：</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Nbin_Newby/article/details/120307866">https://blog.csdn.net/Nbin_Newby/article/details/120307866</a></p>
+<h3 id="241010再编"><a href="#241010再编" class="headerlink" title="241010再编"></a>241010再编</h3><h5 id="Qemu（二进制指令翻译技术）与KVM"><a href="#Qemu（二进制指令翻译技术）与KVM" class="headerlink" title="Qemu（二进制指令翻译技术）与KVM"></a>Qemu（二进制指令翻译技术）与KVM</h5><ol>
+<li><p>Qemu是纯软件实现虚拟化模拟器（即虚拟机：包括ubuntu&#x2F;Debian&#x2F;android- emulator等等）；所谓虚拟化，就是对一些指令进行处理再传递给硬件（虽然都是arm64指令集，但文件格式&#x2F;调用接口不一样）</p>
+</li>
+<li><p>而KVM是硬件辅助虚拟化的技术，纯软件进行虚拟化的效率很低，KVM可以将Linux内核转化为一个虚拟化管理程序（Hypervisor）；这种技术需要VT-x&#x2F;VMx等硬件技术的支持</p>
+</li>
+</ol>
+<p>参考博客：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/147103">https://cloud.tencent.com/developer/article/147103</a></p>
+<ol start="3">
+<li>Hypervisor：抽象的软件层，在CPU&#x2F;ram&#x2F;network之上；当运行一个虚拟机时，将CPU划分成若干部分（好使得每一台虚拟机都能够分配到CPU），同时hypervisor还将每台虚拟机独立出来，防止因为一台机器崩溃引起其它机器崩溃</li>
+<li>macOS 使用 Hypervisor Framework 来处理虚拟化任务</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">sysctl -a | grep machdep.cpu.features<br><span class="hljs-meta prompt_"># </span><span class="language-bash">无任何返回，没有出现VMX</span><br><br>sysctl kern.hv_support<br><span class="hljs-meta prompt_"># </span><span class="language-bash">kern.hv_support: 1</span><br><br>egrep -c &#x27;(vmx|svm)&#x27; /proc/cpuinfo<br>0<br><span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 当 &gt;=0 时，表示CPU支持硬件虚拟化</span></span><br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="google-avd"><a href="#google-avd" class="headerlink" title="google-avd"></a>google-avd</h5><p>AVD(Android Vitrual Deivce)：AVD manager创建一个模拟器后，会在～&#x2F;.android&#x2F;avd目录下存在xxx.ini和xxx.avd；可以编译好所需内核后，启动创建的模拟器xxx</p>
+<p>参考博客：</p>
+<p><a target="_blank" rel="noopener" href="https://blingblingxuanxuan.github.io/2020/06/30/goldfish/">https://blingblingxuanxuan.github.io/2020/06/30/goldfish/</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/leopard21/article/details/21715905">https://blog.csdn.net/leopard21/article/details/21715905</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/silently_frog/article/details/124063445">https://blog.csdn.net/silently_frog/article/details/124063445</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/98595">https://developer.aliyun.com/article/98595</a></p>
 
                 
               </div>
@@ -332,7 +353,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%BD%91%E7%BB%9C/" class="print-no-link">#网络</a>
+        <a href="/tags/%E6%9E%B6%E6%9E%84-%E5%AD%A6%E4%B9%A0/" class="print-no-link">#架构-学习</a>
       
     </div>
   
