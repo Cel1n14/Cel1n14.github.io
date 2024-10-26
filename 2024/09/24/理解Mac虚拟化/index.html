@@ -19,15 +19,15 @@
   <meta name="author" content="a1rh">
   <meta name="keywords" content="">
   
-    <meta name="description" content="理解Mac的虚拟化在使用docker镜像 和 Mac平台虚拟化x86架构的Windows 的时候遇到了一个问题。 docker安卓模拟需要ubuntu环境，但是发现fusion安装的ubuntu中的高级功能 不能选择虚拟化（后来发现是自己的Mac不支持虚拟嵌套）。 于是转战utm，安装了一个ubuntu环境。 接着有一个问题就是，虚拟和模拟虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Li">
+    <meta name="description" content="理解Mac的虚拟化接着有一个问题就是，虚拟和模拟虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Linux平台； 而模拟用的镜像文件是amd64的，这里在Mac上模拟了一个x86-64架构的Linux平台 忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系kvm只需要内核支持kvm即可 查看Mac是否支持虚拟化 12sysctl -a | grep machdep.cpu.featur">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解Mac的虚拟化">
 <meta property="og:url" content="http://example.com/2024/09/24/%E7%90%86%E8%A7%A3Mac%E8%99%9A%E6%8B%9F%E5%8C%96/index.html">
 <meta property="og:site_name" content="Celinia">
-<meta property="og:description" content="理解Mac的虚拟化在使用docker镜像 和 Mac平台虚拟化x86架构的Windows 的时候遇到了一个问题。 docker安卓模拟需要ubuntu环境，但是发现fusion安装的ubuntu中的高级功能 不能选择虚拟化（后来发现是自己的Mac不支持虚拟嵌套）。 于是转战utm，安装了一个ubuntu环境。 接着有一个问题就是，虚拟和模拟虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Li">
+<meta property="og:description" content="理解Mac的虚拟化接着有一个问题就是，虚拟和模拟虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Linux平台； 而模拟用的镜像文件是amd64的，这里在Mac上模拟了一个x86-64架构的Linux平台 忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系kvm只需要内核支持kvm即可 查看Mac是否支持虚拟化 12sysctl -a | grep machdep.cpu.featur">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-09-24T13:08:09.000Z">
-<meta property="article:modified_time" content="2024-10-23T05:28:40.888Z">
+<meta property="article:modified_time" content="2024-10-26T12:55:55.478Z">
 <meta property="article:author" content="a1rh">
 <meta property="article:tag" content="架构">
 <meta name="twitter:card" content="summary_large_image">
@@ -248,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          602 字
+          496 字
         
       </span>
     
@@ -259,7 +259,7 @@
         
         
         
-          6 分钟
+          5 分钟
         
       </span>
     
@@ -310,12 +310,9 @@
             
               <div class="markdown-body">
                 
-                <h2 id="理解Mac的虚拟化"><a href="#理解Mac的虚拟化" class="headerlink" title="理解Mac的虚拟化"></a>理解Mac的虚拟化</h2><p>在使用docker镜像 和 Mac平台虚拟化x86架构的Windows 的时候遇到了一个问题。</p>
-<p>docker安卓模拟需要ubuntu环境，但是发现fusion安装的ubuntu中的高级功能 不能选择虚拟化（后来发现是自己的Mac不支持虚拟嵌套）。</p>
-<p>于是转战utm，安装了一个ubuntu环境。</p>
-<h5 id="接着有一个问题就是，虚拟和模拟"><a href="#接着有一个问题就是，虚拟和模拟" class="headerlink" title="接着有一个问题就是，虚拟和模拟"></a>接着有一个问题就是，虚拟和模拟</h5><p>虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Linux平台；</p>
+                <h2 id="理解Mac的虚拟化"><a href="#理解Mac的虚拟化" class="headerlink" title="理解Mac的虚拟化"></a>理解Mac的虚拟化</h2><h5 id="接着有一个问题就是，虚拟和模拟"><a href="#接着有一个问题就是，虚拟和模拟" class="headerlink" title="接着有一个问题就是，虚拟和模拟"></a>接着有一个问题就是，虚拟和模拟</h5><p>虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Linux平台；</p>
 <p>而模拟用的镜像文件是amd64的，这里在Mac上模拟了一个x86-64架构的Linux平台</p>
-<h5 id="忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系"><a href="#忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系" class="headerlink" title="忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系"></a>忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系</h5><p>kvm只需要物理机支持虚拟化，并且在虚拟机上设置一下支持虚拟化就可以了</p>
+<h5 id="忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系"><a href="#忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系" class="headerlink" title="忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系"></a>忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系</h5><p>kvm只需要内核支持kvm即可</p>
 <p>查看Mac是否支持虚拟化</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sysctl -a | grep machdep.cpu.features<br>sysctl kern.hv_support<br></code></pre></td></tr></table></figure>
 
