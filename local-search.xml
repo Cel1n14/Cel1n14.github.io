@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>从chomper-lief浅析MachO文件结构</title>
+    <link href="/2025/01/20/%E4%BB%8Echomper-lief%E6%B5%85%E6%9E%90MachO%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/"/>
+    <url>/2025/01/20/%E4%BB%8Echomper-lief%E6%B5%85%E6%9E%90MachO%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/</url>
+    
+    <content type="html"><![CDATA[<h1 id="从chomper-lief浅析Mach-O文件结构"><a href="#从chomper-lief浅析Mach-O文件结构" class="headerlink" title="从chomper-lief浅析Mach-O文件结构"></a>从chomper-lief浅析Mach-O文件结构</h1><h6 id="我们都知道，c-程序在执行前会先初始化环境再进入main函数，换而言之，main函数并不是真正意义上的“程序入口点”"><a href="#我们都知道，c-程序在执行前会先初始化环境再进入main函数，换而言之，main函数并不是真正意义上的“程序入口点”" class="headerlink" title="我们都知道，c++程序在执行前会先初始化环境再进入main函数，换而言之，main函数并不是真正意义上的“程序入口点”"></a>我们都知道，c++程序在执行前会先初始化环境再进入main函数，换而言之，main函数并不是真正意义上的“程序入口点”</h6><h3 id="程序加载"><a href="#程序加载" class="headerlink" title="程序加载"></a>程序加载</h3><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250116001320311.png" alt="image-20250116001320311" style="zoom:50%;" /><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250116011301392.png" alt="image-20250116011301392" style="zoom:50%;" /><h3 id="MachO文件结构"><a href="#MachO文件结构" class="headerlink" title="MachO文件结构"></a>MachO文件结构</h3><p>在使用chomper模拟执行文件时遇到了一些bug，感觉可能是环境的问题（android的unidbg也经常出现环境问题。。）</p><p>遂通过chomper研究一下unicorn是怎么读取MachO文件以及.dylib的加载流程，顺带还可以通过lief更细致观察MachO的文件结构</p><h4 id="dylib加载"><a href="#dylib加载" class="headerlink" title=".dylib加载"></a>.dylib加载</h4><p>可以看到在chomper通过lief读取.dylib文件（？unicorn没有接口可以读取吗）；按<strong>顺序</strong>加载了<strong>共享缓存库</strong></p><p>lief需要先确认文件格式为 <code>lief.MachO.BinaryCommand</code> 才能进行解析；</p><p>当我尝试加入自己的.dylib进行解析时，lief读取文件格式为 <code>lief.MachO.BinaryNone</code> ，unicorn就不能正常解析文件。</p><p>通过对比两个文件的结构，发现我自己Xcode目录下导出来的.dylib文件缺少了部分结构（主要是chomper的.dylib文件在command部分之后还有一段LC_DYLD_INFO_ONLY::Binding info，而我编译的.dylib缺少了LC_DYLD_INFO_ONLY）</p><p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118153109346.png" alt="chomper_dylib"></p><p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118155719742.png" alt="my_dylib"></p><p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118161331579.png" alt="diff_from_2_dylib"></p><h4 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h4><h6 id="部分不再详细赘述，仅详细解释struct参数"><a href="#部分不再详细赘述，仅详细解释struct参数" class="headerlink" title="部分不再详细赘述，仅详细解释struct参数"></a>部分不再详细赘述，仅详细解释struct参数</h6><h5 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h5><p>![headers_struct](&#x2F;Users&#x2F;chenjiaying3&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20250118171702287.png)</p><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-comment">// flag标签</span><br>flags为不同的文件标签的组合，每个标签占一个位，可以用位或来进行组合，常见的标签有:<br><span class="hljs-symbol">MH_NOUNDEFS:</span> 该文件没有未定义的引用<br><span class="hljs-symbol">MH_DYLDLINK:</span> 该文件将要作为动态链接器的输入，不能再被静态链接器修改<br><span class="hljs-symbol">MH_TWOLEVEL:</span> 该文件使用两级名字空间绑定<br><span class="hljs-symbol">MH_PIE:</span> 可执行文件会被加载到随机地址，只对MH_EXECUTE有效<br></code></pre></td></tr></table></figure><h5 id="Commads-Segment-Section"><a href="#Commads-Segment-Section" class="headerlink" title="Commads+Segment+Section"></a>Commads+Segment+Section</h5><p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118180346146.png" alt="image-20250118180346146"></p><h6 id="sections的含义参照上图"><a href="#sections的含义参照上图" class="headerlink" title="sections的含义参照上图"></a>sections的含义参照上图</h6><p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118180655608.png" alt="sections"></p><h5 id="Symbols符号表"><a href="#Symbols符号表" class="headerlink" title="Symbols符号表"></a>Symbols符号表</h5><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118181000510.png" alt="symbols" style="zoom:67%;" /><h5 id=""><a href="#" class="headerlink" title=""></a></h5><h4 id="关于LC-DYLD-INFO-ONLY"><a href="#关于LC-DYLD-INFO-ONLY" class="headerlink" title="关于LC_DYLD_INFO_ONLY"></a>关于LC_DYLD_INFO_ONLY</h4><h5 id="具体参数如下图"><a href="#具体参数如下图" class="headerlink" title="具体参数如下图"></a>具体参数如下图</h5><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118202004378.png" alt="image-20250118202004378" style="zoom:67%;" /><h3 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h3><p><a href="https://www.jianshu.com/p/95896fb96a03">https://www.jianshu.com/p/95896fb96a03</a></p><p><a href="https://evilpan.com/2020/09/06/macho-inside-out/">https://evilpan.com/2020/09/06/macho-inside-out/</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>iOS逆向</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Zygisk</title>
     <link href="/2025/01/13/Zygisk/"/>
     <url>/2025/01/13/Zygisk/</url>
