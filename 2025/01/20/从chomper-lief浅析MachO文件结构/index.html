@@ -31,12 +31,13 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118153109346.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118155719742.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118161331579.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118171702287.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118180346146.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118180655608.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118181000510.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118202004378.png">
 <meta property="article:published_time" content="2025-01-20T02:55:49.000Z">
-<meta property="article:modified_time" content="2025-01-20T03:09:43.201Z">
+<meta property="article:modified_time" content="2025-01-21T07:24:09.276Z">
 <meta property="article:author" content="a1rh">
 <meta property="article:tag" content="iOS逆向">
 <meta name="twitter:card" content="summary_large_image">
@@ -258,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          480 字
+          462 字
         
       </span>
     
@@ -269,7 +270,7 @@
         
         
         
-          5 分钟
+          4 分钟
         
       </span>
     
@@ -333,7 +334,7 @@
 <p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118153109346.png" srcset="/img/loading.gif" lazyload alt="chomper_dylib"></p>
 <p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118155719742.png" srcset="/img/loading.gif" lazyload alt="my_dylib"></p>
 <p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118161331579.png" srcset="/img/loading.gif" lazyload alt="diff_from_2_dylib"></p>
-<h4 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h4><h6 id="部分不再详细赘述，仅详细解释struct参数"><a href="#部分不再详细赘述，仅详细解释struct参数" class="headerlink" title="部分不再详细赘述，仅详细解释struct参数"></a>部分不再详细赘述，仅详细解释struct参数</h6><h5 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h5><p>![headers_struct](&#x2F;Users&#x2F;chenjiaying3&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20250118171702287.png)</p>
+<h4 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h4><h6 id="部分不再详细赘述，仅详细解释struct参数"><a href="#部分不再详细赘述，仅详细解释struct参数" class="headerlink" title="部分不再详细赘述，仅详细解释struct参数"></a>部分不再详细赘述，仅详细解释struct参数</h6><h5 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h5><p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118171702287.png" srcset="/img/loading.gif" lazyload alt="headers_struct"></p>
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-comment">// flag标签</span><br>flags为不同的文件标签的组合，每个标签占一个位，可以用位或来进行组合，常见的标签有:<br><span class="hljs-symbol">MH_NOUNDEFS:</span> 该文件没有未定义的引用<br><span class="hljs-symbol">MH_DYLDLINK:</span> 该文件将要作为动态链接器的输入，不能再被静态链接器修改<br><span class="hljs-symbol">MH_TWOLEVEL:</span> 该文件使用两级名字空间绑定<br><span class="hljs-symbol">MH_PIE:</span> 可执行文件会被加载到随机地址，只对MH_EXECUTE有效<br></code></pre></td></tr></table></figure>
 
 <h5 id="Commads-Segment-Section"><a href="#Commads-Segment-Section" class="headerlink" title="Commads+Segment+Section"></a>Commads+Segment+Section</h5><p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250118180346146.png" srcset="/img/loading.gif" lazyload alt="image-20250118180346146"></p>
