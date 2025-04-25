@@ -1,0 +1,753 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/stone.png">
+  <link rel="icon" href="/img/stone.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="a1rh">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="小记-常用的cmd（记不住git&#x2F;ubuntu&#x2F;frida···各种常用工具的命令，故写一个md记录一下（这是一篇会陆续更新的bloggit12345678910# 一些常用指令git config -l git init git add .git commit -m &quot;&quot;git push -u origin maingit pull origin main">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小记-常用的cmd">
+<meta property="og:url" content="http://example.com/2024/09/29/%E5%B0%8F%E8%AE%B0-%E5%B8%B8%E7%94%A8%E7%9A%84cmd/index.html">
+<meta property="og:site_name" content="Celinia">
+<meta property="og:description" content="小记-常用的cmd（记不住git&#x2F;ubuntu&#x2F;frida···各种常用工具的命令，故写一个md记录一下（这是一篇会陆续更新的bloggit12345678910# 一些常用指令git config -l git init git add .git commit -m &quot;&quot;git push -u origin maingit pull origin main">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-09-29T10:03:30.000Z">
+<meta property="article:modified_time" content="2024-11-01T08:17:18.000Z">
+<meta property="article:author" content="a1rh">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>小记-常用的cmd - Celinia</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"qfDaoMu9jhKWwoZWOsYnMOT4-gzGzoHsz","app_key":"aaQm0KJyd1E0dRQGnm9yNWgG","server_url":"https://qfdaomu9.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Airhthm</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/navpage.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="小记-常用的cmd"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-29 18:03" pubdate>
+          2024年9月29日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span>次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">小记-常用的cmd</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="小记-常用的cmd"><a href="#小记-常用的cmd" class="headerlink" title="小记-常用的cmd"></a>小记-常用的cmd</h2><h6 id="（记不住git-ubuntu-frida···各种常用工具的命令，故写一个md记录一下"><a href="#（记不住git-ubuntu-frida···各种常用工具的命令，故写一个md记录一下" class="headerlink" title="（记不住git&#x2F;ubuntu&#x2F;frida···各种常用工具的命令，故写一个md记录一下"></a>（记不住git&#x2F;ubuntu&#x2F;frida···各种常用工具的命令，故写一个md记录一下</h6><h6 id="（这是一篇会陆续更新的blog"><a href="#（这是一篇会陆续更新的blog" class="headerlink" title="（这是一篇会陆续更新的blog"></a>（这是一篇会陆续更新的blog</h6><h4 id="git"><a href="#git" class="headerlink" title="git"></a>git</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 一些常用指令</span><br>git config -l <br>git init <br>git add .<br>git commit -m <span class="hljs-string">&quot;&quot;</span><br>git push -u origin main<br>git pull origin main<br><br><span class="hljs-comment"># git指定分支拉取</span><br>git <span class="hljs-built_in">clone</span> --branch &lt;branc_name&gt; &lt;url&gt;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># pull 报错，主要是上一次的分支没有合并</span><br>git pull origin main<br><br>From https://github.com/Cel1n14/code<br> * branch            main       -&gt; FETCH_HEAD<br>fatal: refusing to merge unrelated histories<br><br><span class="hljs-comment"># 合并 未合并的分支</span><br>git pull origin main --allow-unrelated-histories<br><br>From https://github.com/Cel1n14/code<br> * branch            main       -&gt; FETCH_HEAD<br>hint: Waiting <span class="hljs-keyword">for</span> your editor to close the file... <br>[9]  + 96525 suspended  git pull origin main --allow-unrelated-histories<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># pull 报错，主要是存在冲突文件，？是冲突文件夹没有被 git add </span><br>git pull origin main                              <br><br>error: You have not concluded your merge (MERGE_HEAD exists).<br>hint: Please, commit your changes before merging.<br>fatal: Exiting because of unfinished merge.<br><br><span class="hljs-comment"># 查看冲突文件</span><br>git status<br><br>On branch main<br>All conflicts fixed but you are still merging.<br> (use <span class="hljs-string">&quot;git commit&quot;</span> to conclude merge)<br><br>Changes to be committed:<br>	new file:   README.md<br><br>Untracked files:<br>  (use <span class="hljs-string">&quot;git add &lt;file&gt;...&quot;</span> to include <span class="hljs-keyword">in</span> what will be committed)<br>	crypto/<br>	<br><span class="hljs-comment"># 添加文件夹并上传</span><br>git add crypto<br>git commit -m <span class="hljs-string">&#x27;crypto&#x27;</span><br><br>git pull origin main  <br>git push -u origin main<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 删除主目录下的系统文件并提交</span><br>git <span class="hljs-built_in">rm</span> --cached .DS_Store<br>git commit -m <span class="hljs-string">&quot;remove .DS_Store&quot;</span><br>git push origin main<br><br><span class="hljs-comment"># 删除子目录下的系统文件并提交</span><br>git <span class="hljs-built_in">rm</span> --cached ./crypto/.DS_Store<br>git commit -m <span class="hljs-string">&quot;remove /crypto/.DS_Store&quot;</span><br>git push origin main                    <br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 安装docker</span><br>curl -fsSL https://test.docker.com -o test-docker.sh<br><span class="hljs-built_in">sudo</span> sh test-docker.sh<br><br><span class="hljs-comment"># 拉取某个镜像</span><br>docker pull url-to-docker<br><br><span class="hljs-comment"># 运行某个容器</span><br>	<span class="hljs-comment"># -d :返回容器ID</span><br>	<span class="hljs-comment"># -p :端口映射 host_port:container_port</span><br>	<span class="hljs-comment"># --name :容器名称</span><br>	<span class="hljs-comment"># docker run -d -p 8080:80 -v /host/data:/data --name webserver nginx</span><br>docker run -d -p :8080:80 --name my-docker docker<br><br><span class="hljs-comment"># 删除某个容器</span><br>docker <span class="hljs-built_in">rm</span> docker-name<br><br><span class="hljs-comment"># 查看正在运行的容器</span><br>docker ps<br><br>systemctl start docker<br><br><span class="hljs-comment"># 查看网络信息</span><br>docker network <span class="hljs-built_in">ls</span><br>docker network inspect &lt;network_name&gt;<br>docker inspect -f <span class="hljs-string">&#x27;&#123;&#123;range .NetworkSettings.Networks&#125;&#125;&#123;&#123;.IPAddress&#125;&#125;&#123;&#123;end&#125;&#125;&#x27;</span> &lt;container_id&gt;<br><br><span class="hljs-comment"># 卸载docker</span><br><span class="hljs-built_in">sudo</span> apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">rm</span> -rf /var/lib/docker<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">rm</span> -rf /var/lib/containerd<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">rm</span> /etc/apt/sources.list.d/docker.list<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">rm</span> /etc/apt/keyrings/docker.asc<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">rm</span> -rf /run/docker<br><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">rm</span> -rf /run/docker.sock<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="Linux-Ubuntu-Debian"><a href="#Linux-Ubuntu-Debian" class="headerlink" title="Linux(Ubuntu&#x2F;Debian)"></a>Linux(Ubuntu&#x2F;Debian)</h4><p>阿里源镜像：<a target="_blank" rel="noopener" href="https://developer.aliyun.com/packageSearch">https://developer.aliyun.com/packageSearch</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看内核信息</span><br><span class="hljs-built_in">uname</span> -m<br><br><span class="hljs-comment"># 查看网络信息</span><br>nmcli<br><br><span class="hljs-comment"># 查看进程</span><br>ps -aux |grep <br><br><span class="hljs-comment"># 清空trash</span><br><span class="hljs-built_in">rm</span> -rf ~/.local/share/Trash/&#123;files,info&#125;/*<br><br><span class="hljs-comment"># 查看磁盘占用</span><br><span class="hljs-built_in">df</span> -h<br><br><span class="hljs-comment"># 在根目录查找某文件目录</span><br>find / -name <span class="hljs-string">&quot;*example*&quot;</span><br>find . -name <span class="hljs-string">&quot;*example*&quot;</span><br><br><span class="hljs-comment"># 返回当前所在路径</span><br><span class="hljs-built_in">pwd</span><br><br><span class="hljs-comment"># 查看某个文件内容</span><br><span class="hljs-built_in">cat</span> file-name<br><br><span class="hljs-comment"># vim指令</span><br>vim ./bashrc<br>	<span class="hljs-comment"># insert</span><br>	按 i<br>	<span class="hljs-comment"># 退出编辑</span><br>	按 ESC<br>	<span class="hljs-comment"># 不保存退出</span><br>	:q!<br>	<span class="hljs-comment"># 保存并退出</span><br>	:wq!<br>	<br><span class="hljs-comment"># fdisk 磁盘分区</span><br><span class="hljs-built_in">sudo</span> fdisk /dev/&lt;disk-name&gt;<br>	<span class="hljs-comment"># 查看所有命令</span><br>	m<br>	<span class="hljs-comment"># 扩展磁盘分区</span><br>	n<br>	e<br>	<span class="hljs-comment"># 删除磁盘分区</span><br>	d<br><br><span class="hljs-comment"># 安装.deb</span><br>dpkg --install &lt;file-name&gt;.deb<br><br><span class="hljs-comment"># 查看下载信息</span><br>dpkg --query -L &lt;file-name&gt;<br>apt search &lt;file-name&gt;<br><br><span class="hljs-comment"># 查看包所有文件及安装目录</span><br>dpkg -L &lt;packetdge name&gt; <br><br><span class="hljs-comment"># 列出所有可下载版本</span><br>apt-cache madison &lt;file-name&gt;<br>snap info &lt;file-name&gt;<br><br><span class="hljs-comment"># 查看package的源</span><br>apt-cache policy package_name<br><br><span class="hljs-comment"># 安装其他版本的packetage</span><br>apt install pack=&lt;version&gt;<br>snap refresh --channel==&lt;version&gt; &lt;file-name&gt;<br><br><span class="hljs-comment"># 查看文件权限</span><br><span class="hljs-built_in">ls</span> -l &lt;path-to-file&gt;<br><br><span class="hljs-comment"># 查看系统日志(以docker.socket)</span><br>journalctl -xeu /var/run/docker.socket<br><br><span class="hljs-comment"># 切换防火墙 </span><br><span class="hljs-built_in">sudo</span> update-alternatives --<span class="hljs-built_in">set</span> iptables /usr/sbin/iptables-legacy<br><span class="hljs-built_in">sudo</span> update-alternatives --<span class="hljs-built_in">set</span> ip6tables /usr/sbin/ip6tables-legacy<br>update-alternatives --display iptables<br>lsmod | grep nft<br><br><span class="hljs-comment"># https://lixiangyun.gitbook.io/iptables_doc_zh_cn</span><br><br><span class="hljs-comment"># 查看防火墙状态</span><br><span class="hljs-built_in">sudo</span> iptables -L<br><span class="hljs-built_in">sudo</span> nft list ruleset<br><br><span class="hljs-comment"># 用户组</span><br><span class="hljs-built_in">sudo</span> usermod -aG docker $(<span class="hljs-built_in">whoami</span>)<br><br><span class="hljs-comment"># 安装adb</span><br><span class="hljs-built_in">sudo</span> apt-get install android-tools-adb<br><br><span class="hljs-comment"># 清空文件内容</span><br>&gt; &lt;filename&gt;<br><br><span class="hljs-comment"># 查看端口详情</span><br>netstat -ano |grep 5555<br>lsof -i:prot<br>ps aux |grep socat<br><br><span class="hljs-comment"># 查看内核配置</span><br>zcat /proc/config.gz<br><span class="hljs-built_in">cat</span> /boot/config-*<br><br><span class="hljs-comment"># 查看文件系统</span><br><span class="hljs-built_in">cat</span> /proc/filesystems<br><br><span class="hljs-comment"># 卸载冲突包</span><br>dkms status<br>dkms remove --alls<br><br><span class="hljs-comment"># 查看是否支持x11协议</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$XDG_SESSION_TYPE</span><br><br><span class="hljs-comment"># 彻底删除某个group（以cvd network为例</span><br><br><span class="hljs-comment">## 查看所有cuttlefish相关用户</span><br><span class="hljs-built_in">cat</span> /etc/passwd |grep cutf<br><span class="hljs-comment">### _cutf-operator:x:&lt;&gt;:&lt;&gt;::/var/empty:/usr/sbin/&lt;&gt;</span><br><br><span class="hljs-comment">## 删除相关用户</span><br><span class="hljs-built_in">sudo</span> userdel -r _cutf-operator<br><span class="hljs-comment">### userdel: user _cutf-operator is currently used by process 1763</span><br><span class="hljs-comment">### 直接kill -9 1763</span><br><br><span class="hljs-comment">## 查看组信息</span><br>getent group cvdnetwork<br><br><span class="hljs-comment">## 移除用户组cvdnetwork的某个用户</span><br>gpasswd -d &lt;usrname&gt; cvdnetwork<br><br><span class="hljs-comment">## 删除组</span><br>groupdel cvdnetwork<br><br><span class="hljs-comment">## 查看用户组有关的init脚本</span><br>grep -R <span class="hljs-string">&quot;cvdnetwork&quot;</span> /etc/<br><span class="hljs-built_in">rm</span> -rf &lt;path_to_init_script&gt;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h4><p>和Linux差不多</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看内网IP</span><br>ifconfig<br><br><span class="hljs-comment"># 查看网关</span><br>netstat -rn<br><br><span class="hljs-comment"># 列出硬件端口</span><br>networksetup -listallhardwareports<br><br><span class="hljs-comment"># 将 连接到 localhost:6666 的数据 转发到 localhost:23456</span><br><span class="hljs-built_in">sudo</span> socat TCP4-LISTEN:6666,fork TCP4:localhost:23456<br><br><span class="hljs-comment"># 查看端口占用</span><br>lsof -i:5555<br><span class="hljs-comment"># kill某个进程</span><br><span class="hljs-built_in">kill</span> -9 pid、<br><br><span class="hljs-comment"># ssh远程连接设备</span><br>iproxy 2222 22<br>ssh root@ip<br><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 连接设备与断开设备</span><br>adb connect ip:port<br>adb disconnect ip:port <br><br>adb devices<br>adb shell<br><br><span class="hljs-comment"># 查看某个app进程</span><br>ps | grep com.test.app<br><br><span class="hljs-comment"># 查看网关</span><br>ip route show<br><br>ip <span class="hljs-built_in">link</span> <span class="hljs-built_in">set</span> &lt;net&gt; down<br>ip <span class="hljs-built_in">link</span> <span class="hljs-built_in">set</span> &lt;net_name&gt; name &lt;net_newname&gt;<br>ip <span class="hljs-built_in">link</span> <span class="hljs-built_in">set</span> &lt;net&gt; up<br><br><span class="hljs-comment"># 查看日志</span><br>logcat |grep <br><br><span class="hljs-comment"># kill某个进程</span><br><span class="hljs-built_in">kill</span> -9 pid<br><br><span class="hljs-comment"># 列出某个文件夹下的所有文件</span><br><span class="hljs-built_in">ls</span> <br><br><span class="hljs-comment"># 查看某个文件内容</span><br><span class="hljs-built_in">cat</span> file-name<br><br><span class="hljs-comment"># 查看应用详情</span><br>ps -ef |grep<br><br><span class="hljs-comment"># 查看CPU占用</span><br>top<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="frida"><a href="#frida" class="headerlink" title="frida"></a>frida</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># kill上一个Frida进程</span><br>ps | grep frida<br><span class="hljs-built_in">kill</span> -9 pid<br><br><span class="hljs-comment"># 查询正在运行的app</span><br>frida-ps -Ua<br><br><span class="hljs-comment"># 端口转发</span><br>adb forward tcp:27042 tcp:27042<br><br><span class="hljs-comment"># 有时候会对27042端口进行检测，自定义端口运行</span><br>./fs1522 -l 0.0.0.0:1234<br>adb forward tcp:1234 tcp:1234<br><br><span class="hljs-comment"># PC端 冷启动</span><br>frida -H 127.0.0.1:1234 -f com.test.app -l hook.js --no-pause<br><span class="hljs-comment"># 热启动</span><br>frida -H 127.0.0.1:1234 -UF com.test.app -l hook.js --no-pause<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="Checkra1n-bagbak-otool-classdump"><a href="#Checkra1n-bagbak-otool-classdump" class="headerlink" title="Checkra1n-bagbak-otool-classdump"></a>Checkra1n-bagbak-otool-classdump</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># checkra1n查看越狱日志</span><br>/Applications/checkra1n.app/Contents/MacOS/checkra1n -cv<br><br><span class="hljs-comment"># bagbak 砸壳</span><br>bagbak -l<br>bagbak &lt;bundle&gt;<br><br><span class="hljs-comment"># frida-ios-dump砸壳，需要先ssh连接上手机</span><br>	<span class="hljs-comment"># -u :usr名字</span><br>  <span class="hljs-comment"># -P :password ，这里用的是默认密码</span><br>  <span class="hljs-comment"># 踩坑日记：要触发app才能进行dump</span><br>python dump.py -H 127.0.0.1 -p 2222 -u root -P alpine com.test.app<br><br><span class="hljs-comment"># otool查看是否砸壳成功</span><br>	<span class="hljs-comment"># 只要cryptid为0就行</span><br>otool -l APPname | grep crypt<br><br><span class="hljs-comment"># class-dump提取头文件</span><br>class-dump -H APPname -o &lt;path-restore-.h&gt;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BD%91%E7%BB%9C/" class="print-no-link">#网络</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>小记-常用的cmd</div>
+      <div>http://example.com/2024/09/29/小记-常用的cmd/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>a1rh</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/10/08/ubuntu%E6%89%A9%E5%B1%95%E9%80%BB%E8%BE%91%E5%8D%B7/" title="ubuntu扩展逻辑卷">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ubuntu扩展逻辑卷</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/24/%E7%90%86%E8%A7%A3Mac%E8%99%9A%E6%8B%9F%E5%8C%96/" title="理解Mac的虚拟化">
+                        <span class="hidden-mobile">理解Mac的虚拟化</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"qfDaoMu9jhKWwoZWOsYnMOT4-gzGzoHsz","appKey":"aaQm0KJyd1E0dRQGnm9yNWgG","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量
+        <span id="leancloud-site-pv"></span>
+        次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数
+        <span id="leancloud-site-uv"></span>
+        次
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

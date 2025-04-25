@@ -1,0 +1,753 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/stone.png">
+  <link rel="icon" href="/img/stone.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="a1rh">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Zygisk原理Zygisk命名非常形象，意思是注入Zygote后的Magisk。它能为Magisk模块，提供更深入、更强悍的修改能力。它有一个排除列表，可以撤销Magisk做的所有修改。这样你就能手动划定，模块起作用的范围。不能避免root被检测到，没有任何隐藏作用。即使你把某些程序加入排除列表，它们依旧可以发现Zygisk。如果用户要隐藏root，只能借助其他方式，比如添加Shamiko模块。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zygisk">
+<meta property="og:url" content="http://example.com/2025/01/13/Zygisk/index.html">
+<meta property="og:site_name" content="Celinia">
+<meta property="og:description" content="Zygisk原理Zygisk命名非常形象，意思是注入Zygote后的Magisk。它能为Magisk模块，提供更深入、更强悍的修改能力。它有一个排除列表，可以撤销Magisk做的所有修改。这样你就能手动划定，模块起作用的范围。不能避免root被检测到，没有任何隐藏作用。即使你把某些程序加入排除列表，它们依旧可以发现Zygisk。如果用户要隐藏root，只能借助其他方式，比如添加Shamiko模块。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250110165614883.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250113201930795.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250113212548799.png">
+<meta property="article:published_time" content="2025-01-13T13:51:44.000Z">
+<meta property="article:modified_time" content="2025-01-14T11:55:24.000Z">
+<meta property="article:author" content="a1rh">
+<meta property="article:tag" content="架构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250110165614883.png">
+  
+  
+  
+  <title>Zygisk - Celinia</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"qfDaoMu9jhKWwoZWOsYnMOT4-gzGzoHsz","app_key":"aaQm0KJyd1E0dRQGnm9yNWgG","server_url":"https://qfdaomu9.lc-cn-n1-shared.com","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Airhthm</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/navpage.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Zygisk"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-13 21:51" pubdate>
+          2025年1月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          922 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span>次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Zygisk</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Zygisk"><a href="#Zygisk" class="headerlink" title="Zygisk"></a>Zygisk</h2><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>Zygisk命名非常形象，意思是<strong>注入Zygote后的Magisk</strong>。它能为Magisk模块，提供<strong>更深入、更强悍</strong>的修改能力。它有一个排除列表，可以撤销Magisk做的所有修改。这样你就能手动划定，模块起作用的范围。<strong>不能避免root被检测到</strong>，没有任何隐藏作用。即使你把某些程序加入排除列表，它们依旧可以发现Zygisk。如果用户要隐藏root，只能借助其他方式，比如<strong>添加Shamiko模块</strong>。</p>
+<p>magisk的原理是劫持程序的app_process，app_process用来启动app_runtime，app_process有四个参数:zygote,system-server,application,nice-name</p>
+<p>app_runtime在libandroid_runtime的AndroidRuntime中实现，AndroidRuntime先初始化JVM虚拟机，然后进入ZygoteInit或者RuntimeInit，这取决于传入main函数的是哪个类名</p>
+<h4 id="zygisk原理"><a href="#zygisk原理" class="headerlink" title="zygisk原理"></a>zygisk原理</h4><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250110165614883.png" srcset="/img/loading.gif" lazyload alt="image-20250110165614883" style="zoom:67%;" />
+
+<h5 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h5><p><a target="_blank" rel="noopener" href="https://gist.github.com/5ec1cff/bfe06429f5bf1da262c40d0145e9f190#file-zygisk-md">https://gist.github.com/5ec1cff/bfe06429f5bf1da262c40d0145e9f190#file-zygisk-md</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// native/jni/core/module.cpp</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">magic_mount</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// ...</span><br>    <span class="hljs-comment">// Mount on top of modules to enable zygisk</span><br>    <span class="hljs-keyword">if</span> (zygisk_enabled) &#123;<br>        string zygisk_bin = MAGISKTMP + <span class="hljs-string">&quot;/&quot;</span> ZYGISKBIN; <span class="hljs-comment">// /sbin/.magisk/zygisk 或 /dev/xxx/.magisk/zygisk</span><br>        <span class="hljs-built_in">mkdir</span>(zygisk_bin.<span class="hljs-built_in">data</span>(), <span class="hljs-number">0</span>);<br>        <span class="hljs-built_in">mount_zygisk</span>(<span class="hljs-number">32</span>)<br>        <span class="hljs-built_in">mount_zygisk</span>(<span class="hljs-number">64</span>)<br>    &#125;<br>&#125;<br><span class="hljs-comment">//得到zygisk的路径，调用mount_zygisk进行挂载</span><br><br><span class="hljs-comment">// native/jni/core/module.cpp</span><br><br><span class="hljs-comment">//在函数mount_zygisk(bit)中，将magisk的app_process复制到zygisk的目录下（？理解为假目录），然后挂载到/system/bin/app_process的目录下，这样运行时用的就是magisk的app_process</span><br><br><br><br><span class="hljs-type">int</span> app_process_32 = <span class="hljs-number">-1</span>;<br><span class="hljs-type">int</span> app_process_64 = <span class="hljs-number">-1</span>;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> mount_zygisk(bit)                                                               \</span><br><span class="hljs-meta"><span class="hljs-keyword">if</span> (access(<span class="hljs-string">&quot;/system/bin/app_process&quot;</span> #bit, F_OK) == 0) &#123;                                \</span><br><span class="hljs-meta">    app_process_##bit = xopen(<span class="hljs-string">&quot;/system/bin/app_process&quot;</span> #bit, O_RDONLY | O_CLOEXEC);    \</span><br><span class="hljs-meta">    string zbin = zygisk_bin + <span class="hljs-string">&quot;/app_process&quot;</span> #bit;                                     \</span><br><span class="hljs-meta">    string mbin = MAGISKTMP + <span class="hljs-string">&quot;/magisk&quot;</span> #bit;                                           \</span><br><span class="hljs-meta">    int src = xopen(mbin.data(), O_RDONLY | O_CLOEXEC);                                 \</span><br><span class="hljs-meta">    int out = xopen(zbin.data(), O_CREAT | O_WRONLY | O_CLOEXEC, 0);                    \</span><br><span class="hljs-meta">    xsendfile(out, src, nullptr, INT_MAX);                                              \</span><br><span class="hljs-meta">    close(src);                                                                         \</span><br><span class="hljs-meta">    close(out);                                                                         \</span><br><span class="hljs-meta">    clone_attr(<span class="hljs-string">&quot;/system/bin/app_process&quot;</span> #bit, zbin.data());                            \</span><br><span class="hljs-meta">    bind_mount(zbin.data(), <span class="hljs-string">&quot;/system/bin/app_process&quot;</span> #bit);                            \</span><br><span class="hljs-meta">&#125;</span><br><br><br></code></pre></td></tr></table></figure>
+
+<p>以上操作是在magisk进程时，挂载magisk到zygisk；接下来通过magiskd的进程号，启动zygisk服务，zygisk的client接收到一些信号后，要做的就是将.so文件注入</p>
+<p>那如何将so注入呢，简单来说就是通过fd找到当前进程，关闭当前进程，设置LD_PRELOAD环境-添加zygisk的.so文件，再次启动进程。（涉及网络通信）</p>
+<p>LD_PRELOAD的作用是<strong>在程序运行前，将指定的共享库加载到程序的内存中</strong>。</p>
+<p>注入后，要考虑的就是zygisk的init和entry了。</p>
+<p><strong>为什么zygisk能够隐藏自身的进程</strong>？这需要学习一下zygote的工作方式。</p>
+<h4 id="zygote-pre-fork线程池"><a href="#zygote-pre-fork线程池" class="headerlink" title="zygote pre-fork线程池"></a>zygote pre-fork线程池</h4><h5 id="参考博客-1"><a href="#参考博客-1" class="headerlink" title="参考博客"></a>参考博客</h5><p>android加载：<a target="_blank" rel="noopener" href="https://blog.csdn.net/luansxx/article/details/120856581">https://blog.csdn.net/luansxx/article/details/120856581</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangsunyucong/article/details/53896197">https://blog.csdn.net/zhangsunyucong/article/details/53896197</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhzhangnews/article/details/109294313">https://blog.csdn.net/zhzhangnews/article/details/109294313</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yangfengxiao/article/details/131802875">https://blog.csdn.net/yangfengxiao/article/details/131802875</a></p>
+<p>zygote预先fork多个进程监听usap_pool_primary的socket；启动应用时，system_server向usap_pool_primary的socket发送信息；usap收到消息后，唤醒一个进程来处理。</p>
+<img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250113201930795.png" srcset="/img/loading.gif" lazyload alt="image-20250113201930795" style="zoom: 67%;" />
+
+<img src="https://raw.githubusercontent.com/Cel1n14/blogImg/main/imgimage-20250113212548799.png" srcset="/img/loading.gif" lazyload alt="image-20250113212548799" style="zoom:50%;" />
+
+<h4 id="Zygisk-entry"><a href="#Zygisk-entry" class="headerlink" title="Zygisk- entry"></a>Zygisk- entry</h4><h5 id="一阶段：实现-so的隐藏-dlopen加载后remap"><a href="#一阶段：实现-so的隐藏-dlopen加载后remap" class="headerlink" title="一阶段：实现.so的隐藏-dlopen加载后remap"></a>一阶段：实现.so的隐藏-dlopen加载后remap</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">first_stage_entry</span><span class="hljs-params">()</span> </span>&#123;<br>	  <span class="hljs-comment">// 根据LD_PRELOAD 设置path，决定后续dlopen的加载第二阶段</span><br>  	path=...;<br>  	...	<br>	  <span class="hljs-built_in">sanitize_environ</span>();  <span class="hljs-comment">//确保进程的环境变量存储在一块连续的内存区域中</span><br>		...<br>    <span class="hljs-built_in">setenv</span>(INJECT_ENV_2, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-number">1</span>);<br>    <span class="hljs-type">void</span> *handle = <span class="hljs-built_in">dlopen</span>(path, RTLD_LAZY);  <span class="hljs-comment">//加载zygisk.app_process.[32|64].2.so</span><br>    <span class="hljs-built_in">remap_all</span>(path);			<span class="hljs-comment">// 重新映射当前内存区域存储的数据，程序可以在逻辑上脱离文件系统依赖，做到隐藏.so</span><br>    ...<br>    <span class="hljs-built_in">second_stage</span>(handle, tmp, path);<br>  	...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="二阶段：对zygote的hook"><a href="#二阶段：对zygote的hook" class="headerlink" title="二阶段：对zygote的hook"></a>二阶段：对zygote的hook</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title">second_stage_entry</span><span class="hljs-params">(<span class="hljs-type">void</span> *handle, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *tmp, <span class="hljs-type">char</span> *path)</span> </span>&#123;<br>		...<br>    <span class="hljs-built_in">hook_functions</span>();<br>		...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>想要模块起作用，就需要在fork前进行修改</p>
+<p>zygote的fork主要在于forkAndSpecialize和forkSystemServer，所以只要在这两个函数执行前进行fork就可以做到控制process。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">HookContext::fork_pre</span><span class="hljs-params">()</span> </span>&#123;<br>    g_ctx = <span class="hljs-keyword">this</span>;<br>    <span class="hljs-built_in">sigmask</span>(SIG_BLOCK, SIGCHLD); <span class="hljs-comment">//屏蔽该信号可以使父进程在fork期间忽略来自子进程的信号，防止过早地干扰父进程的执行。</span><br>    pid = <span class="hljs-built_in">old_fork</span>(); <span class="hljs-comment">// 用来复制当前进程，创建一个子进程。</span><br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">HookContext::nativeForkSystemServer_pre</span><span class="hljs-params">()</span> </span>&#123;<br>    fork_pre();<br>    flags[SERVER_SPECIALIZE] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">if</span> (pid == <span class="hljs-number">0</span>) &#123;  <span class="hljs-comment">// pid==0表示在子进程中</span><br>        <span class="hljs-built_in">ZLOGV</span>(<span class="hljs-string">&quot;pre  forkSystemServer\n&quot;</span>);<br>        <span class="hljs-built_in">run_modules_pre</span>(<span class="hljs-built_in">remote_get_info</span>(<span class="hljs-number">1000</span>, <span class="hljs-string">&quot;system_server&quot;</span>, &amp;info));<br>        <span class="hljs-built_in">close_fds</span>();<br>        <span class="hljs-built_in">android_logging</span>();<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">HookContext::nativeForkAndSpecialize_pre</span><span class="hljs-params">()</span> </span>&#123;<br>    fork_pre();<br>    flags[FORK_AND_SPECIALIZE] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">if</span> (pid == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-built_in">nativeSpecializeAppProcess_pre</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9E%B6%E6%9E%84/" class="print-no-link">#架构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Zygisk</div>
+      <div>http://example.com/2025/01/13/Zygisk/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>a1rh</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年1月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/01/20/%E4%BB%8Echomper-lief%E6%B5%85%E6%9E%90MachO%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" title="从chomper-lief浅析MachO文件结构">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">从chomper-lief浅析MachO文件结构</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/25/Unidbg%E5%8E%BB%E6%9F%90%E6%89%8B%E6%B8%B8ollvm%E6%B7%B7%E6%B7%86-%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96%E7%AF%87/" title="Unidbg去某手游ollvm混淆-控制流平坦化篇">
+                        <span class="hidden-mobile">Unidbg去某手游ollvm混淆-控制流平坦化篇</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"qfDaoMu9jhKWwoZWOsYnMOT4-gzGzoHsz","appKey":"aaQm0KJyd1E0dRQGnm9yNWgG","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量
+        <span id="leancloud-site-pv"></span>
+        次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数
+        <span id="leancloud-site-uv"></span>
+        次
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
