@@ -19,22 +19,28 @@
   <meta name="author" content="a1rh">
   <meta name="keywords" content="">
   
-    <meta name="description" content="理解Mac的虚拟化接着有一个问题就是，虚拟和模拟虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Linux平台； 而模拟用的镜像文件是amd64的，这里在Mac上模拟了一个x86-64架构的Linux平台 忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系kvm只需要内核支持kvm即可 查看Mac是否支持虚拟化 12sysctl -a | grep machdep.cpu.featur">
+    <meta name="description" content="LLM辅助逆向初体验一、环境搭建 最近面试的时候，面试官问过，是否考虑使用大模型来辅助逆向。说实话真没试过，最多把关键程序扔给AI，让AI分析程序逻辑。刚好有个朋友说入门大模型的话，可以研究研究MCP。  从在GitHub上找到了GhidraMCP。环境搭建：  python&gt;&#x3D;3.10，pip install mcp  安装并注册Claude-desktop，作为MCP的客户端并">
 <meta property="og:type" content="article">
-<meta property="og:title" content="理解Mac的虚拟化">
-<meta property="og:url" content="http://example.com/2024/09/24/%E7%90%86%E8%A7%A3Mac%E8%99%9A%E6%8B%9F%E5%8C%96/index.html">
+<meta property="og:title" content="llm辅助逆向">
+<meta property="og:url" content="http://example.com/2025/04/28/llm%E8%BE%85%E5%8A%A9%E9%80%86%E5%90%91/index.html">
 <meta property="og:site_name" content="Celinia">
-<meta property="og:description" content="理解Mac的虚拟化接着有一个问题就是，虚拟和模拟虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Linux平台； 而模拟用的镜像文件是amd64的，这里在Mac上模拟了一个x86-64架构的Linux平台 忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系kvm只需要内核支持kvm即可 查看Mac是否支持虚拟化 12sysctl -a | grep machdep.cpu.featur">
+<meta property="og:description" content="LLM辅助逆向初体验一、环境搭建 最近面试的时候，面试官问过，是否考虑使用大模型来辅助逆向。说实话真没试过，最多把关键程序扔给AI，让AI分析程序逻辑。刚好有个朋友说入门大模型的话，可以研究研究MCP。  从在GitHub上找到了GhidraMCP。环境搭建：  python&gt;&#x3D;3.10，pip install mcp  安装并注册Claude-desktop，作为MCP的客户端并">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-24T13:08:09.000Z">
-<meta property="article:modified_time" content="2025-04-28T14:47:01.097Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282100565.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282102017.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282033862.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282033068.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282034244.png">
+<meta property="article:published_time" content="2025-04-28T14:43:52.000Z">
+<meta property="article:modified_time" content="2025-04-28T14:45:55.441Z">
 <meta property="article:author" content="a1rh">
-<meta property="article:tag" content="内核">
+<meta property="article:tag" content="Android逆向、iOS逆向">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282100565.png">
   
   
   
-  <title>理解Mac的虚拟化 - Celinia</title>
+  <title>llm辅助逆向 - Celinia</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -225,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="理解Mac的虚拟化"></span>
+            <span id="subtitle" data-typed-text="llm辅助逆向"></span>
           
         </div>
 
@@ -236,8 +242,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-09-24 21:08" pubdate>
-          2024年9月24日 晚上
+        <time datetime="2025-04-28 22:43" pubdate>
+          2025年4月28日 晚上
         </time>
       </span>
     
@@ -248,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          496 字
+          259 字
         
       </span>
     
@@ -259,7 +265,7 @@
         
         
         
-          5 分钟
+          3 分钟
         
       </span>
     
@@ -305,39 +311,42 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">理解Mac的虚拟化</h1>
+            <h1 id="seo-header">llm辅助逆向</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="理解Mac的虚拟化"><a href="#理解Mac的虚拟化" class="headerlink" title="理解Mac的虚拟化"></a>理解Mac的虚拟化</h2><h5 id="接着有一个问题就是，虚拟和模拟"><a href="#接着有一个问题就是，虚拟和模拟" class="headerlink" title="接着有一个问题就是，虚拟和模拟"></a>接着有一个问题就是，虚拟和模拟</h5><p>虚拟用的镜像文件同样是arm64架构的，这只是虚拟一个Linux平台；</p>
-<p>而模拟用的镜像文件是amd64的，这里在Mac上模拟了一个x86-64架构的Linux平台</p>
-<h5 id="忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系"><a href="#忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系" class="headerlink" title="忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系"></a>忽然意识到kvm其实和虚拟机是虚拟的还是模拟的并没有关系</h5><p>kvm只需要内核支持kvm即可</p>
-<p>查看Mac是否支持虚拟化</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sysctl -a | grep machdep.cpu.features<br>sysctl kern.hv_support<br></code></pre></td></tr></table></figure>
-
-<h5 id="参考博客："><a href="#参考博客：" class="headerlink" title="参考博客："></a>参考博客：</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Nbin_Newby/article/details/120307866">https://blog.csdn.net/Nbin_Newby/article/details/120307866</a></p>
-<h3 id="241010再编"><a href="#241010再编" class="headerlink" title="241010再编"></a>241010再编</h3><h5 id="Qemu（二进制指令翻译技术）与KVM"><a href="#Qemu（二进制指令翻译技术）与KVM" class="headerlink" title="Qemu（二进制指令翻译技术）与KVM"></a>Qemu（二进制指令翻译技术）与KVM</h5><ol>
-<li><p>Qemu是纯软件实现虚拟化模拟器（即虚拟机：包括ubuntu&#x2F;Debian&#x2F;android- emulator等等）；所谓虚拟化，就是对一些指令进行处理再传递给硬件（虽然都是arm64指令集，但文件格式&#x2F;调用接口不一样）</p>
+                <h1 id="LLM辅助逆向初体验"><a href="#LLM辅助逆向初体验" class="headerlink" title="LLM辅助逆向初体验"></a>LLM辅助逆向初体验</h1><h2 id="一、环境搭建"><a href="#一、环境搭建" class="headerlink" title="一、环境搭建"></a>一、环境搭建</h2><ol>
+<li><p>最近面试的时候，面试官问过，是否考虑使用大模型来辅助逆向。说实话真没试过，最多把关键程序扔给AI，让AI分析程序逻辑。刚好有个朋友说入门大模型的话，可以研究研究MCP。</p>
 </li>
-<li><p>而KVM是硬件辅助虚拟化的技术，纯软件进行虚拟化的效率很低，KVM可以将Linux内核转化为一个虚拟化管理程序（Hypervisor）；这种技术需要VT-x&#x2F;VMx等硬件技术的支持</p>
+<li><p>从在GitHub上找到了<a target="_blank" rel="noopener" href="https://github.com/LaurieWired/GhidraMCP">GhidraMCP</a>。环境搭建：</p>
+<ul>
+<li><p>python&gt;&#x3D;3.10，<code>pip install mcp</code></p>
+</li>
+<li><p>安装并注册Claude-desktop，作为MCP的客户端并配置config文件；</p>
+</li>
+<li><p>在Ghidra中安装MCP插件。</p>
+</li>
+</ul>
+</li>
+<li><p>MCP原理：<a target="_blank" rel="noopener" href="https://modelcontextprotocol.io/quickstart/server">MCP</a>即Model Context Protocol（模型上下文协议），可以让AI与terminal进行对话的一个工具（有点类似于翻译）。</p>
+<ul>
+<li><p>比如说这里的<code>Claude-desktop</code>作为 <strong>MCP客户端</strong>，向MCP服务端发起对话；<code>bridge_mcp_ghidra.py</code>创建了<strong>MCP服务器</strong>，通过解析AI发送的指令后，调用对应的<code>mcp.tool()</code>，在<code>Ghidra</code>中执行，最后将结果通过MCP返回给AI。</p>
+</li>
+<li><p>流程图如下：</p>
+<img src="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282100565.png" srcset="/img/loading.gif" lazyload alt="image-20250428210051723" style="zoom:67%;" /></li>
+</ul>
 </li>
 </ol>
-<p>参考博客：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/147103">https://cloud.tencent.com/developer/article/147103</a></p>
-<ol start="3">
-<li>Hypervisor：抽象的软件层，在CPU&#x2F;ram&#x2F;network之上；当运行一个虚拟机时，将CPU划分成若干部分（好使得每一台虚拟机都能够分配到CPU），同时hypervisor还将每台虚拟机独立出来，防止因为一台机器崩溃引起其它机器崩溃</li>
-<li>macOS 使用 Hypervisor Framework 来处理虚拟化任务</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">sysctl -a | grep machdep.cpu.features<br><span class="hljs-meta prompt_"># </span><span class="language-bash">无任何返回，没有出现VMX</span><br><br>sysctl kern.hv_support<br><span class="hljs-meta prompt_"># </span><span class="language-bash">kern.hv_support: 1</span><br><br>egrep -c &#x27;(vmx|svm)&#x27; /proc/cpuinfo<br>0<br><span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 当 &gt;=0 时，表示CPU支持硬件虚拟化</span></span><br></code></pre></td></tr></table></figure>
+<h2 id="二、ctf逆向尝试"><a href="#二、ctf逆向尝试" class="headerlink" title="二、ctf逆向尝试"></a>二、ctf逆向尝试</h2><p>在Ghidra中反编译一个文件（选了BuuCtf网站上的一道BabyCPP），让AI辅助解析：</p>
+<img src="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282102017.png" srcset="/img/loading.gif" lazyload alt="image-20250428210219861" style="zoom:67%;" />
 
+<img src="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282033862.png" srcset="/img/loading.gif" lazyload alt="image-20250428202404232" style="zoom:67%;" />
 
+<img src="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282033068.png" srcset="/img/loading.gif" lazyload alt="image-20250428202432891" style="zoom:67%;" />
 
-<h5 id="google-avd"><a href="#google-avd" class="headerlink" title="google-avd"></a>google-avd</h5><p>AVD(Android Vitrual Deivce)：AVD manager创建一个模拟器后，会在～&#x2F;.android&#x2F;avd目录下存在xxx.ini和xxx.avd；可以编译好所需内核后，启动创建的模拟器xxx</p>
-<p>参考博客：</p>
-<p><a target="_blank" rel="noopener" href="https://blingblingxuanxuan.github.io/2020/06/30/goldfish/">https://blingblingxuanxuan.github.io/2020/06/30/goldfish/</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/leopard21/article/details/21715905">https://blog.csdn.net/leopard21/article/details/21715905</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/silently_frog/article/details/124063445">https://blog.csdn.net/silently_frog/article/details/124063445</a></p>
-<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/98595">https://developer.aliyun.com/article/98595</a></p>
+<img src="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282034244.png" srcset="/img/loading.gif" lazyload alt="image-20250428202450404" style="zoom:67%;" />
+
 
                 
               </div>
@@ -350,7 +359,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%86%85%E6%A0%B8/" class="print-no-link">#内核</a>
+        <a href="/tags/Android%E9%80%86%E5%90%91%E3%80%81iOS%E9%80%86%E5%90%91/" class="print-no-link">#Android逆向、iOS逆向</a>
       
     </div>
   
@@ -362,8 +371,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>理解Mac的虚拟化</div>
-      <div>http://example.com/2024/09/24/理解Mac虚拟化/</div>
+      <div>llm辅助逆向</div>
+      <div>http://example.com/2025/04/28/llm辅助逆向/</div>
     </div>
     <div class="license-meta">
       
@@ -375,7 +384,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年9月24日</div>
+          <div>2025年4月28日</div>
         </div>
       
       
@@ -407,18 +416,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/09/29/%E5%B0%8F%E8%AE%B0-%E5%B8%B8%E7%94%A8%E7%9A%84cmd/" title="小记-常用的cmd">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">小记-常用的cmd</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/09/16/IDA%E8%BF%9C%E7%A8%8B%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95iOS%E7%A8%8B%E5%BA%8F/" title="IDA远程动态调试iOS程序">
-                        <span class="hidden-mobile">IDA远程动态调试iOS程序</span>
+                      <a href="/2025/04/25/leetcode%E5%88%B7%E9%A2%98%E6%97%A5%E5%B8%B8/" title="leetcode刷题日常">
+                        <span class="hidden-mobile">leetcode刷题日常</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

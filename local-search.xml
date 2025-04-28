@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>llm辅助逆向</title>
+    <link href="/2025/04/28/llm%E8%BE%85%E5%8A%A9%E9%80%86%E5%90%91/"/>
+    <url>/2025/04/28/llm%E8%BE%85%E5%8A%A9%E9%80%86%E5%90%91/</url>
+    
+    <content type="html"><![CDATA[<h1 id="LLM辅助逆向初体验"><a href="#LLM辅助逆向初体验" class="headerlink" title="LLM辅助逆向初体验"></a>LLM辅助逆向初体验</h1><h2 id="一、环境搭建"><a href="#一、环境搭建" class="headerlink" title="一、环境搭建"></a>一、环境搭建</h2><ol><li><p>最近面试的时候，面试官问过，是否考虑使用大模型来辅助逆向。说实话真没试过，最多把关键程序扔给AI，让AI分析程序逻辑。刚好有个朋友说入门大模型的话，可以研究研究MCP。</p></li><li><p>从在GitHub上找到了<a href="https://github.com/LaurieWired/GhidraMCP">GhidraMCP</a>。环境搭建：</p><ul><li><p>python&gt;&#x3D;3.10，<code>pip install mcp</code></p></li><li><p>安装并注册Claude-desktop，作为MCP的客户端并配置config文件；</p></li><li><p>在Ghidra中安装MCP插件。</p></li></ul></li><li><p>MCP原理：<a href="https://modelcontextprotocol.io/quickstart/server">MCP</a>即Model Context Protocol（模型上下文协议），可以让AI与terminal进行对话的一个工具（有点类似于翻译）。</p><ul><li><p>比如说这里的<code>Claude-desktop</code>作为 <strong>MCP客户端</strong>，向MCP服务端发起对话；<code>bridge_mcp_ghidra.py</code>创建了<strong>MCP服务器</strong>，通过解析AI发送的指令后，调用对应的<code>mcp.tool()</code>，在<code>Ghidra</code>中执行，最后将结果通过MCP返回给AI。</p></li><li><p>流程图如下：</p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282100565.png" alt="image-20250428210051723" style="zoom:67%;" /></li></ul></li></ol><h2 id="二、ctf逆向尝试"><a href="#二、ctf逆向尝试" class="headerlink" title="二、ctf逆向尝试"></a>二、ctf逆向尝试</h2><p>在Ghidra中反编译一个文件（选了BuuCtf网站上的一道BabyCPP），让AI辅助解析：</p><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282102017.png" alt="image-20250428210219861" style="zoom:67%;" /><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282033862.png" alt="image-20250428202404232" style="zoom:67%;" /><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282033068.png" alt="image-20250428202432891" style="zoom:67%;" /><img src="https://raw.githubusercontent.com/Cel1n14/blogImg/master/img202504282034244.png" alt="image-20250428202450404" style="zoom:67%;" />]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Android逆向、iOS逆向</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>leetcode刷题日常</title>
     <link href="/2025/04/25/leetcode%E5%88%B7%E9%A2%98%E6%97%A5%E5%B8%B8/"/>
     <url>/2025/04/25/leetcode%E5%88%B7%E9%A2%98%E6%97%A5%E5%B8%B8/</url>
@@ -52,7 +71,7 @@
     
     <tags>
       
-      <tag>架构</tag>
+      <tag>内核</tag>
       
     </tags>
     
@@ -223,7 +242,7 @@
     
     <tags>
       
-      <tag>架构</tag>
+      <tag>内核</tag>
       
     </tags>
     
